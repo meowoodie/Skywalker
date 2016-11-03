@@ -1,0 +1,39 @@
+package tutorial;
+
+message UltrasoundVideo {
+
+    message UltrasoundImage {
+
+        message Gesture {
+            required float thumb_bend = 1;
+            required float index_bend = 2;
+            required float middle_bend = 3;
+            required float ring_bend = 4;
+            required float pinky_bend = 5;
+
+            required float thumb_press = 6;
+            required float index_press = 7;
+            required float middle_press = 8;
+            required float ring_press = 9;
+            required float pinky_press = 10;
+
+            required float wrist_roll = 11;
+            required float wrist_pitch = 12;
+            required float wrist_yaw = 13;
+            required float hand_roll = 14;
+            required float hand_pitch = 15;
+            required float hand_yaw = 16;
+        }
+
+        repeated int32   pixels = 1 [packed=true];
+	required uint32  rows = 2;
+   	required uint32  cols = 3;
+        optional Gesture gesture = 4;
+        required float   timestamp = 5;
+
+    }
+    
+    required string name = 1;
+    repeated UltrasoundImage ultrasound_images = 2;
+}
+
