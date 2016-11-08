@@ -47,6 +47,7 @@ def read_data_from_protobuf(file_path):
 
     return name, np.array(image_list), np.array(gesture_list), np.array(timestamp_List)
 
+# TODO
 def convert_protobuf2numpy(protobuf_file_path, numpy_file_name):
     _, image_list, gesture_list, _ = read_data_from_protobuf(protobuf_file_path)
     outfile = TemporaryFile()
