@@ -11,7 +11,7 @@ model_file_name  = sys.argv[2]
 HIDDEN_LAYERS    = map(int, sys.argv[3].strip().split(','))
 TRAIN_TEST_RATIO = float(sys.argv[4])
 
-# Get the myo data and the label data from local file.
+# Get the raw data from protobuf file.
 data_path  = '../data/'
 model_path = '../resource/'
 res_path   = '../result/'
@@ -52,7 +52,7 @@ if not os.path.exists(res_path):
 # _, output_size = training_labels.shape
 print '------ [ %s ] ------' % arrow.now()
 print 'Create an instance of the neural network.'
-network = dbn.DBN(layers=layers, iters=50, batch_size=2, mu=.0005)
+network = dbn.DBN(layers=layers, iters=100, batch_size=50, mu=.0005)
 with tf.Session() as sess:
     print 'Start training...'
     tr, test = network.train(sess, training_features, training_labels, testing_features, testing_labels)

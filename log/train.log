@@ -1,26 +1,13 @@
-(2, 518400)
-(2, 5)
-[DBN] test cost:	1.03634e+11
-[DBN] train cost:	1.30971e+11
-[DBN] test cost:	1720.63
-[DBN] train cost:	2238.38
-[DBN] test cost:	1720.63
-[DBN] train cost:	2238.38
-[DBN] final cost:	1720.63
-terminate called after throwing an instance of 'std::bad_alloc'
-  what():  std::bad_alloc
------- [ 2016-10-30T05:35:07.047824+00:00 ] ------
-The layers of the network:	[518400, 100, 5]
-The size of feature:	100 * 518400
-The size of labels:	100 * 5
-The protobuf name:	../data/FingerBending4GB.mp4_1
+------ [ 2016-11-08T21:34:49.846657+00:00 ] ------
+The layers of the network:	[5184, 1000, 5]
+The size of feature:	13904 * 5184
+The size of labels:	13904 * 5
+The protobuf name:	../data/protobuf_fingerbendingmason1_72_binary_0
 A example of the feature data:
-[21 24 26 ..., 72 77 62]
+[0 0 0 ..., 0 0 0]
 A example of the label data:
-[ 39.29999924  39.70000076  33.          19.5         17.        ]
------- [ 2016-10-30T05:35:07.382244+00:00 ] ------
-Create an instance of the neural network.
-Start training...
------- [ 2016-10-30T06:36:18.254838+00:00 ] ------
-Training has been done, Save the model...
-Aborted
+[ 91.80000305  96.80000305  57.59999847  40.70000076  39.29999924]
+Traceback (most recent call last):
+  File "../code/train.py", line 37, in <module>
+    training_features = np.array(features[0:end_train])
+MemoryError

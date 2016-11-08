@@ -1,6 +1,7 @@
-protobuf_data_file_name='protobuf_finger_bending_mason_1_ds36_first1000'
+protobuf_data_file_name='protobuf_fingerbendingmason1_72_binary_all'
+model_name='dbn'
 model_file_name='model.test_dbn'
-hidden_layers='10000'
+hidden_layers='1000'
 train_test_ratio='9'
 
 # Train the model
@@ -11,13 +12,8 @@ python ../code/train.py \
 	${train_test_ratio} \
 	> ../log/train.log 2>&1
 
-# Run test_main() in skywalkder.py
-# python ../code/contrast.py \
-# 	${model_file_name} \
-# 	${test_data_file_name} \
-# 	${feature_size} ${label_size} ${hidden_layers} \
-# 	> ../results/${contrast_result_file_name} \
-# 	2> ../log/contrast.log
+python ../code/predict.py offline_test \
+	${model_name} ${model_file_name} ${hidden_layers} \
+	${protobuf_data_file_name} ${train_test_ratio} > contrast.txt
 
-# Plot the contrast results
-# cat ../results/${contrast_result_file_name} | python ../code/plot/plot_contrast.py
+cat contrast.txt | python ../code/visualize.py vis_result 

@@ -60,9 +60,10 @@ def write2protobuf(protobuf_name, protobuf_obj):
 #################################
 # Process each frame of the video
 def binarizing(image, threshold=-1):
+    bias = 10.0
     if threshold == -1:
-        thresh = threshold_otsu(image)
-    binary = image > thresh
+        threshold = threshold_otsu(image) + bias
+    binary = image > threshold
     return binary
 
 def downscaling(image, proportion):
@@ -146,8 +147,11 @@ for i, im in enumerate(cap):
     # Grey processing each image in the video 
     print >> sys.stderr, '[%s] Gray processing...' % arrow.now()
     gray_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    
-    proc_img = preprocess_frame(gray_image, process_steps)
+    try:    
+        proc_img = preprocess_frame(gray_image, process_steps)
+    except Exception as e:
+        print >> sys.stderr, '[%s] Preprocess failed: %s' % (arrow.now(), e)
+        continue
     print >> sys.stderr, '[%s] Current size of the frame: %s * %s' % (arrow.now(), proc_img.shape[0], proc_img.shape[1])
     # Calculate the timestamp of the next frame
     last_time = cur_time
@@ -192,13 +196,17 @@ for i, im in enumerate(cap):
             image_buf.pixels.append(int(proc_img[x][y]))
 
     # Write to file
-    if (j+1) % buf_size == 0:
+    if buf_size != -1 and (j+1) % buf_size == 0:
         write2protobuf(protobuf_name + '_' + str(j/buf_size), video_buf)
         # Initialize the protocolbuffer
         video_buf = ultra.UltrasoundVideo()
         video_buf.name = video_name + '_' + str(j/buf_size)
     
-    if buf_num != -1 and (j/buf_size) >= buf_num:
+    if buf_size != -1 and buf_num != -1 and (j/buf_size) >= buf_num:
         break
     
     j += 1
+
+if buf_size == -1:
+    write2protobuf(protobuf_name + '_all', video_buf)
+
