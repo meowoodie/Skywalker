@@ -60,9 +60,10 @@ def write2protobuf(protobuf_name, protobuf_obj):
 #################################
 # Process each frame of the video
 def binarizing(image, threshold=-1):
+    bias = 10.0
     if threshold == -1:
-        thresh = threshold_otsu(image)
-    binary = image > thresh
+        threshold = threshold_otsu(image) + bias
+    binary = image > threshold
     return binary
 
 def downscaling(image, proportion):

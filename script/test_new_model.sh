@@ -1,4 +1,4 @@
-protobuf_data_file_name='protobuf_finger_bending_mason_no1_ds36_all'
+protobuf_data_file_name='protobuf_fingerbendingmason1_72_binary_all'
 model_name='dbn'
 model_file_name='model.test_dbn'
 hidden_layers='1000'

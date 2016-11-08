@@ -1,6 +1,8 @@
 VIDEO_PATH='../data/FingerBending4GB.mp4'
 GLOVE_PATH='../data/finger_bending_mason_1.txt'
-PROTO_BUF_PATH='../data/protobuf_finger_bending_mason_no1_ds36'
+# The output: 
+# [type]_[name]_[dim]_[process_method]
+PROTO_BUF_PATH='../data/protobuf_fingerbendingmason1_72_binary'
 # The timestamp of the start frame
 start_time='1476463978.558'
 # The start frame is the first valid frame which is decided by observing manually
@@ -8,7 +10,7 @@ start_frame='143'
 # The frame rate of the video
 frame_rate='30'
 # The size of each of the buffer
-# if you want to process all the data, set buf_size='-1'
+# if you want to process all the data into only one buf, set buf_size='-1'
 buf_size='-1'
 # The number of the buffer that you want to output, 
 # if you want to process all the data, set buf_num='-1'
@@ -20,7 +22,7 @@ buf_num='-1'
 # - binary: threshold, if set -1 means automatically find threshold
 # - downscale: the proportion of the downscaling
 # - canny: sigma of the canny
-proc_mode='downscale,0.05#binary,-1'
+proc_mode='downscale,0.1#binary,-1'
 
 
 python ../code/extract_data.py ${VIDEO_PATH} ${GLOVE_PATH} ${PROTO_BUF_PATH} \
