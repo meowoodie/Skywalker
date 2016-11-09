@@ -52,7 +52,7 @@ if not os.path.exists(res_path):
 # _, output_size = training_labels.shape
 print '------ [ %s ] ------' % arrow.now()
 print 'Create an instance of the neural network.'
-network = dbn.DBN(layers=layers, iters=100, batch_size=50, mu=.0005)
+network = dbn.DBN(layers=layers, iters=100, batch_size=100, mu=.0001)
 with tf.Session() as sess:
     print 'Start training...'
     tr, test = network.train(sess, training_features, training_labels, testing_features, testing_labels)
