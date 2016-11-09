@@ -1,7 +1,7 @@
 protobuf_data_file_name='protobuf_fingerbendingmason1_36_binary_all'
 model_name='dbn'
 model_file_name='model.test_dbn'
-hidden_layers='10000'
+hidden_layers='30'
 train_test_ratio='9'
 
 # Train the model
