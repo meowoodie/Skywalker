@@ -33,7 +33,7 @@ class CNN(object):
             # 5x5 conv, 32 inputs, 64 outputs
             'wc2': tf.Variable(tf.random_normal([5, 5, 32, 64])),
             # fully connected, 7*7*64 inputs, 1024 outputs
-            'wd1': tf.Variable(tf.random_normal([7*7*64, 1024])),
+            'wd1': tf.Variable(tf.random_normal([9*9*64, 1024])),
             # 1024 inputs, 10 outputs (class prediction)
             'out': tf.Variable(tf.random_normal([1024, self.n_output]))
         }
