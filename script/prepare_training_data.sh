@@ -2,7 +2,7 @@ VIDEO_PATH='../data/FingerBending4GB.mp4'
 GLOVE_PATH='../data/finger_bending_mason_1.txt'
 # The output:
 # [type]_[name]_[dim]_[process_method]
-PROTO_BUF_PATH='../data/protobuf_fingerbendingmason1_72_binary'
+PROTO_BUF_PATH='../data/protobuf_fingerbendingmason1_36'
 # The timestamp of the start frame
 start_time='1476463978.558'
 # The start frame is the first valid frame which is decided by observing manually
@@ -27,7 +27,7 @@ right_crop='169'
 # - binary: threshold, if set -1 means automatically find threshold
 # - downscale: the proportion of the downscaling
 # - canny: sigma of the canny
-proc_mode='downscale,0.1#binary,-1'
+proc_mode='downscale,0.05'
 
 
 python ../code/extract_data.py ${VIDEO_PATH} ${GLOVE_PATH} ${PROTO_BUF_PATH} \
