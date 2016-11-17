@@ -12,6 +12,8 @@ def predict(model_name, model_file_name, layers, input_features):
     # Restore the well-trained model
     if model_name == 'dbn':
         network = dbn.DBN(layers=layers, batch_size=100)
+    elif model_name == 'cnn':
+        network = cnn.CNN(img_width=input_features.size[1],img_height=input_features.size[2], batch_size=128)
     else:
         return -1, 'Invalid model'
     

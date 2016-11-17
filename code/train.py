@@ -61,11 +61,12 @@ if model == 'dbn':
     network = dbn.DBN(layers=layers, iters=1000, batch_size=100, mu=LEARNING_RATE) #.0001)
 elif model == 'cnn':
     network = cnn.CNN(img_width=img_width, img_height=img_height, learning_rate=LEARNING_RATE, training_iters=200000, batch_size=128, display_step=10)
+
 with tf.Session() as sess:
     print 'Start training...'
-    tr, test = network.train(sess, training_features, training_labels, testing_features, testing_labels)
-    np.savetxt(res_path + 'training_result.txt', tr)
-    np.savetxt(res_path + 'testing_result.txt', test)
+    network.train(sess, training_features, training_labels, testing_features, testing_labels)
+    # np.savetxt(res_path + 'training_result.txt', tr)
+    # np.savetxt(res_path + 'testing_result.txt', test)
 
     print '------ [ %s ] ------' % arrow.now()
     print 'Training has been done, Save the model...'

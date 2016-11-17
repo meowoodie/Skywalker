@@ -1,4 +1,4 @@
-from __future__ import print_function
+import sys
 import numpy as np
 import tensorflow as tf
 
@@ -46,14 +46,14 @@ class CNN(object):
         }
 
         # Construct model
-        pred = self.conv_net(self.x, weights, biases, self.keep_prob)
+        self.output_layer = self.conv_net(self.x, weights, biases, self.keep_prob)
 
         # Define loss and optimizer
-        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(pred, self.y))
+        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.output_layer, self.y))
         self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
 
         # Evaluate model
-        correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(self.y, 1))
+        correct_pred = tf.equal(tf.argmax(self.output_layer, 1), tf.argmax(self.y, 1))
         self.accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
     # Create some wrappers for simplicity
@@ -132,11 +132,18 @@ class CNN(object):
                     [self.cost, self.accuracy], 
                     feed_dict={self.x: batch_x, self.y: batch_y, self.keep_prob: 1.}
                 )
-                print("Iter " + str(step * self.batch_size) + ", Minibatch Loss= " + \
-                    "{:.6f}".format(loss) + ", Training Accuracy= " + \
-                    "{:.5f}".format(acc))
+                # print "Iter " + str(step * self.batch_size) + ", Minibatch Loss= " + \
+                #     "{:.6f}".format(loss) + ", Training Accuracy= " + \
+                #     "{:.5f}".format(acc)
+                test_loss, test_acc = sess.run(
+                    [self.cost, self.accuracy],
+                    feed_dict={self.x: test_inputs, self.y: test_targets, self.keep_prob: 1.}
+                )
+                print >> sys.stderr, '[CNN] Iter: %s' % str(step * self.batch_size)
+                print >> sys.stderr, '[CNN] Train:\tloss (%.5f)\tacc (%.5f)' % (loss, acc)
+                print >> sys.stderr, '[CNN] Test:\tloss (%.5f)\tacc (%.5f)' % (test_loss, test_acc)
             step += 1
-        print("Optimization Finished!")
+        print >> sys.stderr, '[CNN] Optimization Finished!'
 
         # Calculate accuracy for 256 mnist test images
         # print("Testing Accuracy:", \
@@ -150,15 +157,22 @@ class CNN(object):
         #     )
         # )
 
-if __name__ == '__main__':
-    network = CNN()
-    # Launch the graph
-    with tf.Session() as sess:
-        tr, test = network.train(sess, inputs, targets)
-        # np.savetxt('training_results.txt', tr)
-        # np.savetxt('testing_results.txt', test)
-        # np.savetxt('testing_actual.txt', testing_output)
+        # train_outputs = sess.run(
+        #     self.output_layer,
+        #     feed_dict={self.x: inputs, self.keep_prob: 1.0}
+        # )
+        # test_output = sess.run(
+        #     self.output_layer,
+        #     feed_dict={self.x: test_inputs, self.keep_prob: 1.0}
+        # )
+        # return None, None #train_outputs, test_output
 
-        # tf_saver = tf.train.Saver()
-        # tf_saver.save(sess, 'weights.ckpt')
-    
+    def get_output(self, sess, inputs):
+        outputs = sess.run(
+                self.output_layer, 
+                feed_dict={self.x: inputs, self.keep_prob: 1.0}
+        )
+        return outputs
+
+if __name__ == '__main__':
+    pass

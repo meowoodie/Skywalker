@@ -90,15 +90,15 @@ class DBN(object):
                                                self.keep_prob: 1.0,
                                                self.input_keep_prob: 1.0})
     print >> sys.stderr, '[DBN] final cost:\t' + str(final_cost)
-    train_outputs = sess.run(self.output_layer,
-                             feed_dict={self.input_layer: inputs,
-                                        self.keep_prob: 1.0,
-                                        self.input_keep_prob: 1.0})
-    test_outputs = sess.run(self.output_layer,
-                            feed_dict={self.input_layer: test_inputs,
-                                       self.keep_prob: 1.0,
-                                       self.input_keep_prob: 1.0})
-    return train_outputs, test_outputs
+    # train_outputs = sess.run(self.output_layer,
+    #                          feed_dict={self.input_layer: inputs,
+    #                                     self.keep_prob: 1.0,
+    #                                     self.input_keep_prob: 1.0})
+    # test_outputs = sess.run(self.output_layer,
+    #                         feed_dict={self.input_layer: test_inputs,
+    #                                    self.keep_prob: 1.0,
+    #                                    self.input_keep_prob: 1.0})
+    # return train_outputs, test_outputs
     
 
   def _next_batch(self, inputs, targets, last_index):
