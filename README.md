@@ -111,6 +111,10 @@ cd script/
 sh visualize_protobuf.sh
 ```
 
+Here is a processed image example (downscaling to 0.05):
+![preprocess example](https://github.com/meowoodie/Skywalker/blob/master/result/preprocess_example.png)
+
+
 ### Train Your Model
 There are two models, which are CNN and NN (The simple neural network), for your option. All you need to do is:
 
@@ -164,4 +168,13 @@ sh test_new_model.sh
 
 > Note: The input and output layer of the CNN are determined by the training data, so you only need to define the hidden layers of the CNN (convolutional layer and fully connected layer).
 
+#### Get the training results
 
+Once the training process is done, you can get access to the training results in the folder `result/`. Generally, there are 5 images that shows the mapping results between the real finger gesture and the prediction. Also, you can reach out to the model file in the folder `resource/`, which can be referred back to later.
+
+Here is a result example from a NN with one hidden layers (100 nodes)
+![Finger 1](https://github.com/meowoodie/Skywalker/blob/master/result/contrast0.png)
+![Finger 2](https://github.com/meowoodie/Skywalker/blob/master/result/contrast1.png)
+![Finger 3](https://github.com/meowoodie/Skywalker/blob/master/result/contrast2.png)
+![Finger 4](https://github.com/meowoodie/Skywalker/blob/master/result/contrast3.png)
+![Finger 5](https://github.com/meowoodie/Skywalker/blob/master/result/contrast4.png)
