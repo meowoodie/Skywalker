@@ -47,7 +47,7 @@ If you want to train your neural network, please make sure the training data fil
 There are two models, which are CNN and NN (The simple neural network), for your option. All you need to do is:
 
 #### For CNN:
-- Configure your parameters in `script/test_new_model`:
+- Configure your parameters in `script/test_new_model.sh`:
 
 > Note: The input and output layer of the CNN are determined by the training data, so you only need to define the hidden layers of the CNN (convolutional layer and fully connected layer).
 
@@ -55,8 +55,8 @@ There are two models, which are CNN and NN (The simple neural network), for your
 # The name of the output model file
 model_file_name='model.test_cnn'
 # The structure of the CNN
-# - Before '#': The nodes number of the convolutional layers, each of the layer is divided by the comma
-# - After '#': The nodes number of the fully connected hidden layers
+# - Before '#': The nodes number of the convolutional layers, each of the layer is divided by a comma
+# - After '#': The nodes number of the fully connected hidden layers, each of the layer is divided by a comma
 layers='32,64#1024'
 # The proportion between the quantity of training data and testing data.
 # It will divide the training data into two parts by this ratio
