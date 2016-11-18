@@ -19,7 +19,7 @@ def predict(model_name, model_file_name, layers, input_features, target_size):
         conv_layers, hid_layers = layers.strip().split('#')
         conv_layers = map(int, conv_layers.strip().split(','))
         hid_layers  = map(int, hid_layers.strip().split(','))
-        network = cnn.CNN(img_width=input_features.size[1],img_height=input_features.size[2], conv_layers=conv_layers, hidden_layers=hid_layers, batch_size=128)
+        network = cnn.CNN(img_width=input_features.shape[1],img_height=input_features.shape[2], conv_layers=conv_layers, hidden_layers=hid_layers, batch_size=128)
     else:
         return -1, 'Invalid model'
     
