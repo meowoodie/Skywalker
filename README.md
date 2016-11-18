@@ -45,6 +45,7 @@ If you want to train your neural network, please make sure the training data fil
 
 ### Train Your Model
 There are two models, which are CNN and NN (The simple neural network), for your option. All you need to do is:
+
 1. Configure your parameters in `script/test_new_model`:
 - For CNN
 ```shell
