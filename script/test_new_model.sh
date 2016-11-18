@@ -12,15 +12,15 @@ learning_rate='.001'
 model='cnn'
 
 
-# # Train the model
-# python ../code/train.py \
-# 	${protobuf_data_file_name} \
-# 	${model_file_name} \
-# 	${layers} \
-# 	${train_test_ratio} \
-# 	${learning_rate} \
-# 	${model} \
-# 	> ../log/train.log 2>&1
+# Train the model
+python ../code/train.py \
+	${protobuf_data_file_name} \
+	${model_file_name} \
+	${layers} \
+	${train_test_ratio} \
+	${learning_rate} \
+	${model} \
+	> ../log/train.log 2>&1
 
 # Test the model
 python ../code/predict.py offline_test \
