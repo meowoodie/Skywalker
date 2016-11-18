@@ -95,6 +95,11 @@ frame_rate  = float(sys.argv[6]) # The frame rate of the video
 buf_size    = int(sys.argv[7]) # the size of each of the buffers
 buf_num     = int(sys.argv[8]) # if you want to process all the data, set -1
 proc_mode   = sys.argv[9].split('#')
+#video cropping
+top_crop = int(sys.argv[10])
+bot_crop = int(sys.argv[11])
+left_crop = int(sys.argv[12])
+right_crop = int(sys.argv[13])
 allow_error = 0.02
 
 # Parse the processing mode
@@ -133,6 +138,11 @@ for i, im in enumerate(cap):
         continue
     # Read image
     frame = cap.get_data(i)
+
+    # crop image
+    frame_rows = frame.shape[0]
+    frame_cols = frame.shape[1]
+    frame = frame[top_crop:frame_rows-bot_crop, left_crop:frame_cols-right_crop]
 
     # Grey processing each image in the video 
     print >> sys.stderr, '[%s] Gray processing...' % arrow.now()
