@@ -43,15 +43,86 @@ If you want to do preprocessing/visualizing on the raw data, please make sure th
 
 If you want to train your neural network, please make sure the training data file (protobuf file) is in the folder `data/`
 
+### Prepare the Training Data
+
+Here is an example and some description that shows how to prepare your own training data by using the framework.
+
+- Configure your parameters in `script/prepare_training_data.sh`:
+
+```shell
+# The location of the ultrasound video
+VIDEO_PATH='../data/FingerBending4GB.mp4'
+# The location of the hand gesture data
+GLOVE_PATH='../data/finger_bending_mason_1.txt'
+# The output:
+# [type]_[name]_[dim]_[process_method]
+PROTO_BUF_PATH='../data/protobuf_fingerbendingmason1_36'
+# The timestamp of the start frame
+start_time='1476463978.558'
+# The start frame is the first valid frame which is decided by observing manually
+start_frame='143'
+# The frame rate of the video
+frame_rate='30'
+# The size of each of the buffer
+# if you want to process all the data into only one buf, set buf_size='-1'
+buf_size='-1'
+# The number of the buffer that you want to output,
+# if you want to process all the data, set buf_num='-1'
+buf_num='-1'
+# cropping number of pixels
+# If you don't want to apply cropping, set -1,-1,-1,-1
+# crop_box='53,18,45,169'
+crop_box='-1,-1,-1,-1'
+# Preprocessing mode
+# Each processing step is divided by '#', e.g. [step1]#[step2]#...
+# The before comma part is the name of processing, including: binary, canny, downscale
+# The after comma part is the parameter of processing, including:
+# - binary: threshold, if set -1 means automatically find threshold
+# - downscale: the proportion of the downscaling
+# - canny: sigma of the canny
+proc_mode='downscale,0.05'
+```
+
+- Run the script:
+
+```shell
+cd script/
+sh prepare_training_data.sh
+```
+
+### Visualize The Protobuf Data
+- Configure your parameters in `script/visualize_protobuf.sh`:
+
+```shell
+# The protobuf file that you want to visualize
+protobuf_path='../data/protobuf_fingerbendingmason1_36_all'
+# if the frame id is set to be -1, visualize all the frame in the protobuf file
+frame_id='-1'
+# The size the each of the frame.
+frame_size='36,36'
+# The name of the output file
+title='test_36'
+```
+
+- Run the script:
+
+```shell
+cd script/
+sh visualize_protobuf.sh
+```
+
 ### Train Your Model
 There are two models, which are CNN and NN (The simple neural network), for your option. All you need to do is:
 
 #### For CNN:
 - Configure your parameters in `script/test_new_model.sh`:
 
-> Note: The input and output layer of the CNN are determined by the training data, so you only need to define the hidden layers of the CNN (convolutional layer and fully connected layer).
 
 ```shell
+# The type of the neural network
+model='cnn'
+# The training data file name, which should be put in the folder /data
+protobuf_data_file_name='protobuf_fingerbendingmason1_36_all'
 # The name of the output model file
 model_file_name='model.test_cnn'
 # The structure of the CNN
@@ -63,11 +134,9 @@ layers='32,64#1024'
 train_test_ratio='9'
 # The learning rate
 learning_rate='.001'
-# The type of the neural network
-model='cnn'
 ```
 
-- Run the the script:
+- Run the script:
 
 ```shell
 cd script/
@@ -75,4 +144,24 @@ sh test_new_model.sh
 ```
 
 #### For NN:
+- Configure your parameters in `script/test_new_model.sh`:
+
+```shell
+model='dbn'
+protobuf_data_file_name='protobuf_fingerbendingmason1_36_all'
+model_file_name='model.test_dbn'
+hidden_layers='50,100,100'
+train_test_ratio='9'
+learning_rate='.00005'
+```
+
+- Run the script:
+
+```shell
+cd script/
+sh test_new_model.sh
+```
+
+> Note: The input and output layer of the CNN are determined by the training data, so you only need to define the hidden layers of the CNN (convolutional layer and fully connected layer).
+
 
