@@ -46,9 +46,8 @@ If you want to train your neural network, please make sure the training data fil
 ### Train Your Model
 There are two models, which are CNN and NN (The simple neural network), for your option. All you need to do is:
 
-1. Configure your parameters in `script/test_new_model`:
-
-For CNN:
+#### For CNN:
+- Configure your parameters in `script/test_new_model`:
 
 > Note: The input and output layer of the CNN are determined by the training data, so you only need to define the hidden layers of the CNN (convolutional layer and fully connected layer).
 
@@ -68,5 +67,12 @@ learning_rate='.001'
 model='cnn'
 ```
 
-2. Run the the script:
+- Run the the script:
+
+```shell
+cd script/
+sh test_new_model.sh
+```
+
+#### For NN:
 
