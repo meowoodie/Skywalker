@@ -36,9 +36,13 @@ def visualize_train_result():
     # Get data from stdin
     contrasts = []
     for line in sys.stdin:
-        data = line.strip().split('#')
-        test_output = map(float, data[0].split('\t'))
-        real_output = map(float, data[1].split('\t'))
+        try:
+            data = line.strip().split('#')
+            test_output = map(float, data[0].split('\t'))
+            real_output = map(float, data[1].split('\t'))
+        except Exception as e:
+            print >> sys.stderr, e
+            continue
         contrasts.append(zip(test_output, real_output))
     
     # Re-organize the contrasts data

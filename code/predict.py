@@ -10,6 +10,9 @@ data_path       = '../data/'
 model_file_path = '../resource/'
 
 def predict(model_name, model_file_name, layers, input_features, target_size):
+    img_width=input_features.shape[1]
+    img_height=input_features.shape[2]
+    input_features = input_features.reshape(len(input_features), len(input_features[0].flatten()))
     # Restore the well-trained model
     if model_name == 'dbn':
         layers  = map(int, layers.strip().split(','))
@@ -19,7 +22,7 @@ def predict(model_name, model_file_name, layers, input_features, target_size):
         conv_layers, hid_layers = layers.strip().split('#')
         conv_layers = map(int, conv_layers.strip().split(','))
         hid_layers  = map(int, hid_layers.strip().split(','))
-        network = cnn.CNN(img_width=input_features.shape[1],img_height=input_features.shape[2], conv_layers=conv_layers, hidden_layers=hid_layers, batch_size=128)
+        network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, batch_size=128)
     else:
         return -1, 'Invalid model'
     
@@ -44,7 +47,6 @@ if __name__ == '__main__':
         train_test_ratio = int(sys.argv[6])
         # Read raw data from protobuf file
         name, features, labels, _ = read_data_from_protobuf(data_path + data_file_name) 
-        features = features.reshape(len(features), len(features[0].flatten()))
         labels   = labels[:,0:5]
         feature_num = len(features[0])
         label_num   = len(labels[0])
