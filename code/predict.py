@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import model.dbn as dbn
+import model.cnn as cnn
 import tensorflow as tf
 from lib.read_training_data import read_data_from_protobuf
 from matplotlib import pyplot as plt
@@ -8,12 +9,17 @@ from matplotlib import pyplot as plt
 data_path       = '../data/'
 model_file_path = '../resource/'
 
-def predict(model_name, model_file_name, layers, input_features):
+def predict(model_name, model_file_name, layers, input_features, target_size):
     # Restore the well-trained model
     if model_name == 'dbn':
+        layers  = map(int, layers.strip().split(','))
+        layers  = [input_features.shape[1]] + layers + [target_size]
         network = dbn.DBN(layers=layers, batch_size=100)
     elif model_name == 'cnn':
-        network = cnn.CNN(img_width=input_features.size[1],img_height=input_features.size[2], batch_size=128)
+        conv_layers, hid_layers = layers.strip().split('#')
+        conv_layers = map(int, conv_layers.strip().split(','))
+        hid_layers  = map(int, hid_layers.strip().split(','))
+        network = cnn.CNN(img_width=input_features.size[1],img_height=input_features.size[2], conv_layers=conv_layers, hidden_layers=hid_layers, batch_size=128)
     else:
         return -1, 'Invalid model'
     
@@ -31,7 +37,7 @@ if __name__ == '__main__':
     mode            = sys.argv[1]
     model_name      = sys.argv[2]
     model_file_name = sys.argv[3]
-    hidden_layers   = map(int, sys.argv[4].strip().split(','))
+    layers          = sys.argv[4]
     
     if mode == 'offline_test':
         data_file_name   = sys.argv[5]
@@ -43,10 +49,10 @@ if __name__ == '__main__':
         feature_num = len(features[0])
         label_num   = len(labels[0])
         test_start  = int(float(train_test_ratio)/float(train_test_ratio + 1) * len(features)) 
-        layers      = [feature_num] + hidden_layers + [label_num]
         print >> sys.stderr, 'The input data file:\t%s' % name
         print >> sys.stderr, 'The layers:\t', layers
-        code, outputs = predict(model_name, model_file_name, layers, features[test_start:])
+        # Predict
+        code, outputs = predict(model_name, model_file_name, layers, features[test_start:], label_num)
         if code != 0:
             print >> sys.stderr, outputs
             exit(0)

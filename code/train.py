@@ -9,7 +9,7 @@ import os
 
 data_file_name   = sys.argv[1]
 model_file_name  = sys.argv[2]
-HIDDEN_LAYERS    = map(int, sys.argv[3].strip().split(','))
+layers           = sys.argv[3]
 TRAIN_TEST_RATIO = float(sys.argv[4])
 LEARNING_RATE    = float(sys.argv[5])
 model            = sys.argv[6]
@@ -27,7 +27,6 @@ img_width  = features.shape[2]
 features = features.reshape(len(features),len(features[0].flatten()))
 labels   = labels[:,0:5]
 
-layers   = [features.shape[1]] + HIDDEN_LAYERS + [labels.shape[1]]
 print '------ [ %s ] ------' % arrow.now()
 print 'The layers of the network:\t%s' % (layers)
 print 'The size of the image:\t%s * %s' % (img_width, img_height)
@@ -58,9 +57,14 @@ if not os.path.exists(res_path):
 print '------ [ %s ] ------' % arrow.now()
 print 'Create an instance of the neural network.'
 if model == 'dbn':
+    layers  = map(int, layers.strip().split(','))
+    layers  = [features.shape[1]] + layers + [labels.shape[1]]
     network = dbn.DBN(layers=layers, iters=1000, batch_size=100, mu=LEARNING_RATE) #.0001)
 elif model == 'cnn':
-    network = cnn.CNN(img_width=img_width, img_height=img_height, learning_rate=LEARNING_RATE, training_iters=200000, batch_size=128, display_step=10)
+    conv_layers, hid_layers = layers.strip().split('#')
+    conv_layers = map(int, conv_layers.strip().split(','))
+    hid_layers  = map(int, hid_layers.strip().split(','))
+    network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, learning_rate=LEARNING_RATE, training_iters=200000, batch_size=128, display_step=10)
 
 with tf.Session() as sess:
     print 'Start training...'
