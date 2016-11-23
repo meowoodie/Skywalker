@@ -1,16 +1,15 @@
-protobuf_data_file_name='protobuf_fingerbendingmason1_36_all'
-# model_file_name='model.test_dbn'
-# hidden_layers='50'
-# train_test_ratio='9'
-# learning_rate='.00005'
-# model='dbn'
+protobuf_data_file_name='protobuf_fingerbendingmason1_36_binary_all'
+#model_file_name='model.test_dbn'
+#layers='50'
+#train_test_ratio='9'
+#learning_rate='.00005'
+#model='dbn'
 
 model_file_name='model.test_cnn'
-layers='32,64#1024'
+layers='20,40#1500'
 train_test_ratio='9'
-learning_rate='.001'
+learning_rate='0.01'
 model='cnn'
-
 
 # Train the model
 python ../code/train.py \
@@ -28,4 +27,3 @@ python ../code/predict.py offline_test \
 	${protobuf_data_file_name} ${train_test_ratio} | \
 
 python ../code/visualize.py vis_result 
-

@@ -27,6 +27,7 @@ img_width  = features.shape[2]
 features = features.reshape(len(features),len(features[0].flatten()))
 labels   = labels[:,0:5]
 
+print labels[-1]
 print '------ [ %s ] ------' % arrow.now()
 print 'The layers of the network:\t%s' % (layers)
 print 'The size of the image:\t%s * %s' % (img_width, img_height)

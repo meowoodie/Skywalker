@@ -41,7 +41,6 @@ if __name__ == '__main__':
     model_name      = sys.argv[2]
     model_file_name = sys.argv[3]
     layers          = sys.argv[4]
-    
     if mode == 'offline_test':
         data_file_name   = sys.argv[5]
         train_test_ratio = int(sys.argv[6])

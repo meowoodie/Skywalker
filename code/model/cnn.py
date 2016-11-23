@@ -19,11 +19,11 @@ class CNN(object):
         self.display_step   = display_step
 
         # Network Parameters
-        self.img_width   = img_width
-        self.img_height  = img_height
-        self.n_input     = self.img_width * self.img_height # data input
-        self.n_output    = 5       # number of CNN output 
-        self.dropout     = 0.75    # Dropout, probability to keep units
+        self.img_width  = img_width
+        self.img_height = img_height
+        self.n_input    = self.img_width * self.img_height # data input
+        self.n_output   = 5    # number of CNN output 
+        self.dropout    = 1    # Dropout, probability to keep units
 
         # tf Graph input
         self.x = tf.placeholder(tf.float32, [None, self.n_input])
@@ -32,18 +32,18 @@ class CNN(object):
         
         # Store layers weight & bias
         # The conv layers
-        conv_weights = []
-        conv_biases  = []
-        conv_layers = [1] + conv_layers
+        self.conv_weights = []
+        self.conv_biases  = []
+        conv_layers  = [1] + conv_layers
         print >> sys.stderr, '[CNN] conv layers:\t', conv_layers
         for i in range(1, len(conv_layers)):
             weight = tf.Variable(tf.random_normal([5, 5, conv_layers[i-1], conv_layers[i]]))
             bias   = tf.Variable(tf.random_normal([conv_layers[i]]))
-            conv_weights.append(weight)
-            conv_biases.append(bias)
+            self.conv_weights.append(weight)
+            self.conv_biases.append(bias)
         # The hidden layers
-        hidden_weights = []
-        hidden_biases  = []
+        self.hidden_weights = []
+        self.hidden_biases  = []
         # The first hidden layer whose input is the output of the last conv layer
         hidden_input_size = (img_width / (2 ** (len(conv_layers) - 1))) * \
                             (img_height / (2 ** (len(conv_layers) - 1))) * \
@@ -53,17 +53,18 @@ class CNN(object):
         for i in range(1, len(hidden_layers)):
             weight = tf.Variable(tf.random_normal([hidden_layers[i-1], hidden_layers[i]]))
             bias   = tf.Variable(tf.random_normal([hidden_layers[i]]))
-            hidden_weights.append(weight)
-            hidden_biases.append(bias)
+            self.hidden_weights.append(weight)
+            self.hidden_biases.append(bias)
 
         # Construct model
         self.output_layer = self.conv_net(self.x,
-                                          conv_weights, conv_biases,
-                                          hidden_weights, hidden_biases,
+                                          self.conv_weights, self.conv_biases,
+                                          self.hidden_weights, self.hidden_biases,
                                           self.keep_prob)
 
         # Define loss and optimizer
-        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.output_layer, self.y))
+        # self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.output_layer, self.y))
+        self.cost = tf.div(tf.reduce_mean(tf.square(self.output_layer - self.y)), self.batch_size)
         self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
 
         # Evaluate model
@@ -77,12 +78,10 @@ class CNN(object):
         x = tf.nn.bias_add(x, b)
         return tf.nn.relu(x)
 
-
     def _maxpool2d(self, x, k=2):
         # MaxPool2D wrapper
         return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],
                             padding='SAME')
-
 
     # Create model
     def conv_net(self, x, conv_weights, conv_biases, hid_weights, hid_biases, dropout):
