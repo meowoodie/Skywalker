@@ -65,7 +65,7 @@ elif model == 'cnn':
     conv_layers, hid_layers = layers.strip().split('#')
     conv_layers = map(int, conv_layers.strip().split(','))
     hid_layers  = map(int, hid_layers.strip().split(','))
-    network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, learning_rate=LEARNING_RATE, training_iters=200000, batch_size=128, display_step=10)
+    network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, learning_rate=LEARNING_RATE, training_iters=250000, batch_size=128, display_step=10)
 
 with tf.Session() as sess:
     print 'Start training...'

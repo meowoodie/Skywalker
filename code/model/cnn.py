@@ -11,7 +11,7 @@ class CNN(object):
     def __init__(self, img_width=36, img_height=36, 
                  conv_layers=[32,64], hidden_layers=[1024], 
                  learning_rate=0.001, training_iters=200000, 
-                 batch_size=128, display_step=10):
+                 batch_size=100, display_step=10):
         # Parameters
         # self.learning_rate = 0.001
         self.training_iters = training_iters

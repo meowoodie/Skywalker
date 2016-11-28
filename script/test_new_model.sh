@@ -6,9 +6,9 @@ protobuf_data_file_name='protobuf_fingerbendingmason1_36_binary_all'
 #model='dbn'
 
 model_file_name='model.test_cnn'
-layers='20,40#1500'
+layers='100,200#100'
 train_test_ratio='9'
-learning_rate='0.01'
+learning_rate='0.8'
 model='cnn'
 
 # Train the model
