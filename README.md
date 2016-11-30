@@ -138,6 +138,9 @@ layers='32,64#1024'
 train_test_ratio='9'
 # The learning rate
 learning_rate='.001'
+# The pretrained model name
+# - If you set pretrained as -1, then the framework would init an empty new model for training
+pretrained='-1'
 ```
 
 - Run the script:
@@ -157,6 +160,7 @@ model_file_name='model.test_dbn'
 hidden_layers='50,100,100'
 train_test_ratio='9'
 learning_rate='.00005'
+pretrained='-1'
 ```
 
 - Run the script:
