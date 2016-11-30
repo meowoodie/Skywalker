@@ -13,6 +13,7 @@ layers           = sys.argv[3]
 TRAIN_TEST_RATIO = float(sys.argv[4])
 LEARNING_RATE    = float(sys.argv[5])
 model            = sys.argv[6]
+pretrained       = sys.argv[7]
 # Get the raw data from protobuf file.
 data_path  = '../data/'
 model_path = '../resource/'
@@ -65,9 +66,13 @@ elif model == 'cnn':
     conv_layers, hid_layers = layers.strip().split('#')
     conv_layers = map(int, conv_layers.strip().split(','))
     hid_layers  = map(int, hid_layers.strip().split(','))
-    network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, learning_rate=LEARNING_RATE, training_iters=250000, batch_size=128, display_step=10)
+    network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, learning_rate=LEARNING_RATE, training_iters=100000, batch_size=128, display_step=10)
 
 with tf.Session() as sess:
+    if pretrained != '-1':
+        tf_saver = tf.train.Saver()
+        tf_saver.restore(sess, model_file_path + pretrained)
+
     print 'Start training...'
     network.train(sess, training_features, training_labels, testing_features, testing_labels)
     # np.savetxt(res_path + 'training_result.txt', tr)
