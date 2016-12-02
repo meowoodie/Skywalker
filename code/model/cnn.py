@@ -129,10 +129,11 @@ class CNN(object):
         start_index += self.batch_size
         return new_ins, target_vals, start_index
 
-    def train(self, sess, inputs, targets, test_inputs, test_targets):
+    def train(self, sess, inputs, targets, test_inputs, test_targets, pretrained=False):
         # Initializing the variables
-        init = tf.initialize_all_variables()
-        sess.run(init)
+        if not pretrained:
+            init = tf.initialize_all_variables()
+            sess.run(init)
         step = 1
         start_index = 0
         # Keep training until reach max iterations

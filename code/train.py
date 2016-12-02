@@ -66,15 +66,19 @@ elif model == 'cnn':
     conv_layers, hid_layers = layers.strip().split('#')
     conv_layers = map(int, conv_layers.strip().split(','))
     hid_layers  = map(int, hid_layers.strip().split(','))
-    network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, learning_rate=LEARNING_RATE, training_iters=100000, batch_size=128, display_step=10)
+    network = cnn.CNN(img_width=img_width, img_height=img_height, conv_layers=conv_layers, hidden_layers=hid_layers, learning_rate=LEARNING_RATE, training_iters=20000, batch_size=128, display_step=10)
 
 with tf.Session() as sess:
     if pretrained != '-1':
         tf_saver = tf.train.Saver()
-        tf_saver.restore(sess, model_file_path + pretrained)
+        tf_saver.restore(sess, model_path + pretrained)
 
-    print 'Start training...'
-    network.train(sess, training_features, training_labels, testing_features, testing_labels)
+        print 'Start training...'
+        network.train(sess, training_features, training_labels, testing_features, testing_labels, pretrained=True)
+
+    else:
+        print 'Start training...'
+        network.train(sess, training_features, training_labels, testing_features, testing_labels, pretrained=False)
     # np.savetxt(res_path + 'training_result.txt', tr)
     # np.savetxt(res_path + 'testing_result.txt', test)
 

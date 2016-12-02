@@ -1,6 +1,7 @@
 import matplotlib
 matplotlib.use('Agg') 
 import sys
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import lib.read_training_data as rtd
@@ -32,7 +33,11 @@ def visualize_train_data(protobuf_path, frame_id, frame_size, title):
         img = image_list[frame_id].reshape(frame_size[0], frame_size[1])
         _save_one_frame(img, title + '_f' + str(frame_id))
 
-def visualize_train_result():
+def visualize_train_result(result_name):
+    # Check path
+    if not os.path.exists(image_path + result_name):
+        print >> sys.stderr, 'The result path is not existed, create a new one.'
+        os.makedirs(image_path + result_name)
     # Get data from stdin
     contrasts = []
     for line in sys.stdin:
@@ -64,7 +69,7 @@ def visualize_train_result():
         with plt.style.context('fivethirtyeight'):
             plt.plot(x, con[0])
             plt.plot(x, con[1])
-        plt.savefig(image_path + 'contrast' + str(i))
+        plt.savefig(image_path + result_name + '/contrast' + str(i))
         i += 1
 
 if __name__ == '__main__':
@@ -87,4 +92,5 @@ if __name__ == '__main__':
 
         visualize_train_data(protobuf_path, frame_id, frame_size, title)
     elif func_name == 'vis_result':
-        visualize_train_result()
+        result_name = sys.argv[2]
+        visualize_train_result(result_name)
